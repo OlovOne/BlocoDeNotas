@@ -1,14 +1,17 @@
-import java.awt.event.KeyEvent;
+import java.awt.print.PrinterException;
+import java.io.IOException;
 
 import javax.swing.*;
 
 public class Gui{
 	
-	private JTextArea campoEscrita;
+	private JEditorPane campoEscrita = new JEditorPane();
 	private JMenuBar menu;
 	private JFrame frame;
 	private JMenu file,edit,help,palavraFormatacao;
 	private JMenuItem salvar,novo,abrir,corPalavra,negrito,normal,italico;
+	
+	public Gui(String i) {}
 	
 	public Gui() {
 		frame = new JFrame("ToBex");
@@ -24,9 +27,7 @@ public class Gui{
 		menuBar();
 	}
 	private void campoEscrita() {
-		campoEscrita = new JTextArea();
-		campoEscrita.setLineWrap(true);
-		TextHandler handlerText = new TextHandler();
+		campoEscrita.setEditable(true);
 	}
 	private void menuBar() {
 		menu = new JMenuBar();
@@ -49,7 +50,7 @@ public class Gui{
 		file.add(abrir);
 		file.addSeparator();
 		file.add(salvar);
-		salvar.addActionListener(menuHandler);
+		salvar.addMouseListener(menuHandler);
 	}
 	private void menuItemEdit() {
 		palavraFormatacao = new JMenu("Formatações");
@@ -68,48 +69,7 @@ public class Gui{
 		palavraFormatacao.add(negrito);
 		palavraFormatacao.add(italico);
 	}
-	
-	public JMenuItem getSalvar() {
-		return salvar;
+	public void getText() {
+		
 	}
-	public void setSalvar(JMenuItem salvar) {
-		this.salvar = salvar;
-	}
-	public JMenuItem getNovo() {
-		return novo;
-	}
-	public void setNovo(JMenuItem novo) {
-		this.novo = novo;
-	}
-	public JMenuItem getAbrir() {
-		return abrir;
-	}
-	public void setAbrir(JMenuItem abrir) {
-		this.abrir = abrir;
-	}
-	public JMenuItem getCorPalavra() {
-		return corPalavra;
-	}
-	public void setCorPalavra(JMenuItem corPalavra) {
-		this.corPalavra = corPalavra;
-	}
-	public JMenuItem getNegrito() {
-		return negrito;
-	}
-	public void setNegrito(JMenuItem negrito) {
-		this.negrito = negrito;
-	}
-	public JMenuItem getNormal() {
-		return normal;
-	}
-	public void setNormal(JMenuItem normal) {
-		this.normal = normal;
-	}
-	public JMenuItem getItalico() {
-		return italico;
-	}
-	public void setItalico(JMenuItem italico) {
-		this.italico = italico;
-	}
-	
 }
