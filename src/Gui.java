@@ -1,17 +1,18 @@
+import java.awt.print.PrinterException;
+import java.io.IOException;
 
 import javax.swing.*;
 
-public class Gui {
-
+public class Gui{
+	
 	private JEditorPane campoEscrita = new JEditorPane();
 	private JMenuBar menu;
 	private JFrame frame;
-	private JMenu file, edit, help, palavraFormatacao;
-	private JMenuItem salvar, novo, abrir, corPalavra, negrito, normal, italico;
-
-	public Gui(String i) {
-	}
-
+	private JMenu file,edit,help,palavraFormatacao;
+	private JMenuItem salvar,novo,abrir,corPalavra,negrito,normal,italico;
+	
+	public Gui(String i) {}
+	
 	public Gui() {
 		frame = new JFrame("ToBex");
 		frame.setSize(500, 500);
@@ -21,16 +22,13 @@ public class Gui {
 		frame.add(campoEscrita);
 		frame.setVisible(true);
 	}
-
 	private void chamada() {
 		campoEscrita();
 		menuBar();
 	}
-
 	private void campoEscrita() {
 		campoEscrita.setEditable(true);
 	}
-
 	private void menuBar() {
 		menu = new JMenuBar();
 		file = new JMenu("File");
@@ -42,9 +40,8 @@ public class Gui {
 		menu.add(edit);
 		menu.add(help);
 	}
-
 	private void menuItemFile() {
-		MenuHandlerSave menuHandlerSave = new MenuHandlerSave();
+		MenuHandler menuHandler = new MenuHandler();
 		salvar = new JMenuItem("Salvar");
 		abrir = new JMenuItem("Abrir");
 		novo = new JMenuItem("Novo");
@@ -53,9 +50,8 @@ public class Gui {
 		file.add(abrir);
 		file.addSeparator();
 		file.add(salvar);
-		salvar.addMouseListener(menuHandlerSave);
+		salvar.addMouseListener(menuHandler);
 	}
-
 	private void menuItemEdit() {
 		palavraFormatacao = new JMenu("Formatações");
 		corPalavra = new JMenuItem("Cor da palavra");
@@ -63,9 +59,8 @@ public class Gui {
 		edit.add(palavraFormatacao);
 		edit.addSeparator();
 		edit.add(corPalavra);
-
+		
 	}
-
 	private void subMenuDeFormatacao() {
 		negrito = new JMenuItem("Negrito");
 		normal = new JMenuItem("Normal");
@@ -74,8 +69,7 @@ public class Gui {
 		palavraFormatacao.add(negrito);
 		palavraFormatacao.add(italico);
 	}
-
 	public void getText() {
-
+		
 	}
 }

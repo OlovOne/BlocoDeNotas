@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-public class MenuHandlerSave implements MouseListener{
+public class MenuHandler implements MouseListener{
 	private HandlerFile file = new HandlerFile();
 	private JFileChooser fileChooser;
 	private File fileAux;
