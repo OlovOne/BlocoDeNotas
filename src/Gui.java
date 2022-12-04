@@ -1,34 +1,56 @@
-import java.awt.print.PrinterException;
+
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
-public class Gui{
-	
+public class Gui {
+	private ImageIcon icon = new ImageIcon("C:\\Users\\aluno\\Documents\\BlocoDeNotas\\src\\Icon.png");
 	private JEditorPane campoEscrita = new JEditorPane();
 	private JMenuBar menu;
 	private JFrame frame;
-	private JMenu file,edit,help,palavraFormatacao;
-	private JMenuItem salvar,novo,abrir,corPalavra,negrito,normal,italico;
-	
-	public Gui(String i) {}
-	
+	private JMenu file, edit, help, palavraFormatacao;
+	private JMenuItem salvar, novo, abrir, corPalavra, negrito, normal, italico;
+	private HandlerFile filec = new HandlerFile();
+	private JFileChooser fileChooser;
+	private File fileAux;
+	private JScrollPane scroll;
+
 	public Gui() {
 		frame = new JFrame("ToBex");
 		frame.setSize(500, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		chamada();
+		frame.setIconImage(icon.getImage());
 		frame.setJMenuBar(menu);
-		frame.add(campoEscrita);
+		frame.add(scroll);
 		frame.setVisible(true);
 	}
+
 	private void chamada() {
 		campoEscrita();
 		menuBar();
 	}
+
 	private void campoEscrita() {
 		campoEscrita.setEditable(true);
+		scroll = new JScrollPane(campoEscrita);
 	}
+
 	private void menuBar() {
 		menu = new JMenuBar();
 		file = new JMenu("File");
@@ -40,8 +62,8 @@ public class Gui{
 		menu.add(edit);
 		menu.add(help);
 	}
+
 	private void menuItemFile() {
-		MenuHandler menuHandler = new MenuHandler();
 		salvar = new JMenuItem("Salvar");
 		abrir = new JMenuItem("Abrir");
 		novo = new JMenuItem("Novo");
@@ -50,7 +72,28 @@ public class Gui{
 		file.add(abrir);
 		file.addSeparator();
 		file.add(salvar);
-		salvar.addMouseListener(menuHandler);
+		novo.addMouseListener(new New());
+		abrir.addMouseListener(new MouseAdapter(){
+			public void mouseReleased(MouseEvent e) {
+				try {
+					campoEscrita.setText(filec.open(chooser(e)));
+				} catch (FileNotFoundException e1) {
+					JOptionPane.showMessageDialog(null, "Erro no codigo informe ao criador\n"+e1.getMessage());
+				}
+			}
+		});
+		salvar.addMouseListener(new MouseAdapter() {
+
+
+			public void mouseReleased(MouseEvent e) {
+				try {
+					filec.save(chooser(e),getText());
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao criar o arquivo\n"+e1.getMessage());
+				}
+			}
+
+		});
 	}
 	private void menuItemEdit() {
 		palavraFormatacao = new JMenu("Formatações");
@@ -59,8 +102,8 @@ public class Gui{
 		edit.add(palavraFormatacao);
 		edit.addSeparator();
 		edit.add(corPalavra);
-		
 	}
+
 	private void subMenuDeFormatacao() {
 		negrito = new JMenuItem("Negrito");
 		normal = new JMenuItem("Normal");
@@ -68,8 +111,30 @@ public class Gui{
 		palavraFormatacao.add(normal);
 		palavraFormatacao.add(negrito);
 		palavraFormatacao.add(italico);
+		normal.addMouseListener(new MouseAdapter() {
+			public void mouseReleased(MouseEvent e) {
+				Font normal = new Font("Arial",Font.PLAIN,12);
+				Font italico = new Font("Arial",Font.ITALIC,12);
+				Font negrito = new Font("Arial",Font.BOLD,12);
+				JLabel labelAux = new JLabel();
+				labelAux.setText(campoEscrita.getSelectedText());
+				labelAux.setFont(negrito);
+				campoEscrita.setText(labelAux.getText());
+			}
+		});	
 	}
-	public void getText() {
-		
+
+	public String getText() {
+		return campoEscrita.getText();
+	}
+	public String chooser(MouseEvent e) {
+		fileChooser = new JFileChooser();
+		int returnSave = fileChooser.showDialog((Component) e.getSource(), "Save");
+		fileAux = fileChooser.getSelectedFile();
+		if(JFileChooser.APPROVE_OPTION == returnSave ) {
+			return fileAux.getPath();
+		}else {
+			return null;
+		}
 	}
 }
