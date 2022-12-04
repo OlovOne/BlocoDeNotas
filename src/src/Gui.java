@@ -1,3 +1,5 @@
+package src;
+
 
 import java.awt.Component;
 import java.awt.Font;
@@ -111,15 +113,19 @@ public class Gui {
 		palavraFormatacao.add(normal);
 		palavraFormatacao.add(negrito);
 		palavraFormatacao.add(italico);
+		negrito.addMouseListener(new MouseAdapter() {
+			public void mouseReleased(MouseEvent e) {
+				campoEscrita.setFont(new Font("Arial",Font.BOLD,12));
+			}
+		});
+		italico.addMouseListener(new MouseAdapter() {
+			public void mouseReleased(MouseEvent e) {
+				campoEscrita.setFont(new Font("Arial",Font.ITALIC,12));
+			}
+		});
 		normal.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent e) {
-				Font normal = new Font("Arial",Font.PLAIN,12);
-				Font italico = new Font("Arial",Font.ITALIC,12);
-				Font negrito = new Font("Arial",Font.BOLD,12);
-				JLabel labelAux = new JLabel();
-				labelAux.setText(campoEscrita.getSelectedText());
-				labelAux.setFont(negrito);
-				campoEscrita.setText(labelAux.getText());
+				campoEscrita.setFont(new Font("Arial",Font.PLAIN,12));
 			}
 		});	
 	}
